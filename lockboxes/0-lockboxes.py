@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 
 """
-The approach here is based on tracking reachable boxes using a set and verifying that all boxes are accessible from the initial box.
-If any box cannot be unlocked, the function returns `False`, otherwise it returns `True`.
+Approach: based on tracking reachable boxes using a set and verifying that all boxes are accessible from the initial box.
 """
 
 def canUnlockAll(boxes):
