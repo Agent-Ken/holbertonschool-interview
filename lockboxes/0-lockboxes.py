@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 """
-Approach: based on tracking reachable boxes using a set and verifying that all boxes are accessible from the initial box.
+Approach: based on tracking reachable boxes using a set and
+verifying that all boxes are accessible from the initial box.
 """
 
 
