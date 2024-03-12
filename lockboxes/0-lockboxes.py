@@ -4,6 +4,7 @@
 Approach: based on tracking reachable boxes using a set and verifying that all boxes are accessible from the initial box.
 """
 
+
 def canUnlockAll(boxes):
     openBoxes = set()
     for i, key in enumerate(boxes):
