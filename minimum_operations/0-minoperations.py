@@ -30,3 +30,4 @@ def minOperations(n):
             lngth += min_op
 
     return count
+    
