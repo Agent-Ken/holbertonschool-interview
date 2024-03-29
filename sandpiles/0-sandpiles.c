@@ -1,102 +1,108 @@
-#include <stdio.h>
 #include "sandpiles.h"
-
-static void print_grid(int grid[3][3]);
-static int is_stable(int grid[3][3]);
-static void topple(int grid[3][3], int row, int col);
+#include <stdio.h>
 
 /**
- * print_grid - Prints a 3x3 grid of integers.
- * @grid: The grid to print.
+ * print_grid_sum - Print 3x3 grids sum
+ * @grid1: Left 3x3 grid
+ * @grid2: Right 3x3 grid
+ *
  */
-static void print_grid(int grid[3][3])
+static void print_grid_sum(int grid1[3][3], int grid2[3][3])
 {
-    int row, col;
+    int i, j;
 
-    for (row = 0; row < 3; row++)
+    for (i = 0; i < 3; i++)
     {
-        for (col = 0; col < 3; col++)
+        for (j = 0; j < 3; j++)
         {
-            if (col)
+            if (j)
                 printf(" ");
-            printf("%d", grid[row][col]);
+            printf("%d", grid1[i][j]);
+        }
+
+        printf(" %c ", (i == 1 ? '+' : ' '));
+
+        for (j = 0; j < 3; j++)
+        {
+            if (j)
+                printf(" ");
+            printf("%d", grid2[i][j]);
         }
         printf("\n");
     }
 }
 
 /**
- * is_stable - Checks if a grid is stable.
- * @grid: The grid to check.
+ * print_grid - Print 3x3 grid
+ * @grid: 3x3 grid
  *
- * Return: 1 if grid stable, otherwise 0.
  */
-static int is_stable(int grid[3][3])
-{
-    int row, col;
-
-    for (row = 0; row < 3; row++)
-    {
-        for (col = 0; col < 3; col++)
-        {
-            if (grid[row][col] > 3)
-                return (0);
-        }
-    }
-    return (1);
-}
-
-/**
- * topple - Topples a grid cell and distributes grains.
- * @grid: The grid to topple.
- * @row: The row of the cell to topple.
- * @col: The column of the cell to topple.
- */
-static void topple(int grid[3][3], int row, int col)
+static void print_grid(int grid[3][3])
 {
     int i, j;
 
-    grid[row][col] -= 4;
-    for (i = row - 1; i <= row + 1; i++)
+    for (i = 0; i < 3; i++)
     {
-        for (j = col - 1; j <= col + 1; j++)
+        for (j = 0; j < 3; j++)
         {
-            if (i >= 0 && i < 3 && j >= 0 && j < 3 && !(i == row && j == col))
-                grid[i][j]++;
+            if (j)
+                printf(" ");
+            printf("%d", grid[i][j]);
         }
+        printf("\n");
     }
 }
 
 /**
- * sandpiles_sum - Computes the sum of two sandpiles.
- * @grid1: The first sandpile.
- * @grid2: The second one.
- *
- * Description: Sums 2 sandpiles and stabilizes the result.
+ * topple - Perform toppling operation at given position
+ * @grid: The grid to perform toppling on
+ * @row: Row index of the position
+ * @col: Column index of the position
+ */
+static void topple(int grid[3][3], int row, int col)
+{
+    grid[row][col] -= 4;
+    if (row - 1 >= 0)
+        grid[row - 1][col]++;
+    if (row + 1 < 3)
+        grid[row + 1][col]++;
+    if (col - 1 >= 0)
+        grid[row][col - 1]++;
+    if (col + 1 < 3)
+        grid[row][col + 1]++;
+}
+
+/**
+ * sandpiles_sum - Compute the sum of two sandpiles
+ * @grid1: The first sandpile
+ * @grid2: The second sandpile
  */
 void sandpiles_sum(int grid1[3][3], int grid2[3][3])
 {
-    int row, col;
-
-    printf("=\n");
-    for (row = 0; row < 3; row++)
+    int i, j;
+    int stable = 0;
+    for (i = 0; i < 3; i++)
     {
-        for (col = 0; col < 3; col++)
+        for (j = 0; j < 3; j++)
         {
-            grid1[row][col] += grid2[row][col];
+            grid1[i][j] += grid2[i][j];
         }
     }
 
-    while (!is_stable(grid1))
+    while (!stable)
     {
-        print_grid(grid1);
-        printf("=\n");
-        for (row = 0; row < 3; row++)
+        stable = 1;
+        for (i = 0; i < 3; i++)
         {
-            for (col = 0; col < 3; col++)
+            for (j = 0; j < 3; j++)
             {
-                if (grid1[row][col] > 3)
-                    topple(grid1, row, col);
+                if (grid1[i][j] > 3)
+                {
+                    stable = 0;
+                    printf("=\n");
+                    print_grid(grid1);
+                    topple(grid1, i, j);
+                }
             }
         }
     }
