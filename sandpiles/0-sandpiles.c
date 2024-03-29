@@ -89,6 +89,28 @@ static int mark_unstable(int grid[3][3], int unstable[3][3])
 }
 
 /**
+ * topple_unstable - Topple all unstable cells in the grid
+ * @grid: 3x3 grid to be toppled
+ * @unstable: 3x3 grid with unstable cell markers
+ */
+void topple_unstable(int grid[3][3], int unstable[3][3])
+{
+	int i, j;
+
+	for (i = 0; i < 3; i++)
+	{
+		for (j = 0; j < 3; j++)
+		{
+			if (unstable[i][j])
+			{
+				topple(grid, i, j);
+				unstable[i][j] = 0;
+			}
+		}
+	}
+}
+
+/**
  * sandpiles_sum - Computes the sum of two sandpiles
  * @grid1: 3x3 grid representing the first sandpile
  * @grid2: 3x3 grid representing the second sandpile
@@ -108,27 +130,5 @@ void sandpiles_sum(int grid1[3][3], int grid2[3][3])
 		printf("=\n");
 		print_grid(grid1);
 		topple_unstable(grid1, unstable);
-	}
-}
-
-/**
- * topple_unstable - Topple all unstable cells in the grid
- * @grid: 3x3 grid to be toppled
- * @unstable: 3x3 grid with unstable cell markers
- */
-static void topple_unstable(int grid[3][3], int unstable[3][3])
-{
-	int i, j;
-
-	for (i = 0; i < 3; i++)
-	{
-		for (j = 0; j < 3; j++)
-		{
-			if (unstable[i][j])
-			{
-				topple(grid, i, j);
-				unstable[i][j] = 0;
-			}
-		}
 	}
 }
