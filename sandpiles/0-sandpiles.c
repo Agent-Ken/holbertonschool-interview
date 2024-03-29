@@ -53,8 +53,6 @@ void sandpiles_sum(int grid1[3][3], int grid2[3][3])
                 if (grid1[i][j] > 3)
                 {
                     stable = 0;
-                    printf("=\n");
-                    print_grid(grid1);
                     topple(grid1, i, j);
                 }
             }
