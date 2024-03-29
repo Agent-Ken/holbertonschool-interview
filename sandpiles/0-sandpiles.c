@@ -2,37 +2,6 @@
 #include <stdio.h>
 
 /**
- * print_grid_sum - Print 3x3 grids sum
- * @grid1: Left 3x3 grid
- * @grid2: Right 3x3 grid
- *
- */
-static void print_grid_sum(int grid1[3][3], int grid2[3][3])
-{
-    int i, j;
-
-    for (i = 0; i < 3; i++)
-    {
-        for (j = 0; j < 3; j++)
-        {
-            if (j)
-                printf(" ");
-            printf("%d", grid1[i][j]);
-        }
-
-        printf(" %c ", (i == 1 ? '+' : ' '));
-
-        for (j = 0; j < 3; j++)
-        {
-            if (j)
-                printf(" ");
-            printf("%d", grid2[i][j]);
-        }
-        printf("\n");
-    }
-}
-
-/**
  * print_grid - Print 3x3 grid
  * @grid: 3x3 grid
  *
@@ -81,6 +50,8 @@ void sandpiles_sum(int grid1[3][3], int grid2[3][3])
 {
     int i, j;
     int stable = 0;
+
+    // Add the values of corresponding cells
     for (i = 0; i < 3; i++)
     {
         for (j = 0; j < 3; j++)
@@ -92,6 +63,7 @@ void sandpiles_sum(int grid1[3][3], int grid2[3][3])
     while (!stable)
     {
         stable = 1;
+        // Check if any cell has more than 3 grains
         for (i = 0; i < 3; i++)
         {
             for (j = 0; j < 3; j++)
@@ -101,6 +73,7 @@ void sandpiles_sum(int grid1[3][3], int grid2[3][3])
                     stable = 0;
                     printf("=\n");
                     print_grid(grid1);
+                    // Perform toppling operation
                     topple(grid1, i, j);
                 }
             }
