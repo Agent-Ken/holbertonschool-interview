@@ -67,7 +67,7 @@ static void add_grids(int grid1[3][3], int grid2[3][3])
  */
 static int mark_unstable(int grid[3][3], int unstable[3][3])
 {
-	int i, j, unstable_found = 0;
+	int i, j, is_unstable = 0;
 
 	for (i = 0; i < 3; i++)
 	{
@@ -75,7 +75,7 @@ static int mark_unstable(int grid[3][3], int unstable[3][3])
 		{
 			if (grid[i][j] > 3)
 			{
-				unstable_found = 1;
+				is_unstable = 1;
 				unstable[i][j] = 1;
 			}
 			else
@@ -85,7 +85,7 @@ static int mark_unstable(int grid[3][3], int unstable[3][3])
 		}
 	}
 
-	return unstable_found;
+	return (is_unstable);
 }
 
 /**
@@ -93,7 +93,7 @@ static int mark_unstable(int grid[3][3], int unstable[3][3])
  * @grid: 3x3 grid to be toppled
  * @unstable: 3x3 grid with unstable cell markers
  */
-void topple_unstable(int grid[3][3], int unstable[3][3])
+static void topple_unstable(int grid[3][3], int unstable[3][3])
 {
 	int i, j;
 
