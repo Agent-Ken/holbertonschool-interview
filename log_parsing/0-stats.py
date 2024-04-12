@@ -1,43 +1,41 @@
 #!/usr/bin/python3
 
-
-"""Input stats"""
+"""Log parsing algorithm that reads stdin and computes metrics."""
 
 import sys
-import re
+from collections import defaultdict
 
-logs = 0
 total_size = 0
-status_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-}
+status_counts = defaultdict(int)
+line_count = 0
 
 
-def print_statistics(statuses, total):
-    print("File size: {}".format(total))
-    for key, value in sorted(statuses.items()):
-        if value != 0:
-            print("{}: {}".format(key, value))
+def print_stats():
+    """Print the total file size and number of lines by status code."""
+    global total_size
+    print(f"File size: {total_size}")
+    for status_code in sorted(status_counts.keys()):
+        count = status_counts[status_code]
+        if count > 0:
+            print(f"{status_code}: {count}")
 
 
 try:
     for line in sys.stdin:
-        new_line = line.rstrip().split(" ")
-        if len(new_line) == 9 or len(new_line) == 7:
-            try:
-                logs += 1
-                total_size += int(new_line[-1])
-                status_codes[new_line[-2]] += 1
-                if logs % 10 == 0 and logs != 0:
-                    print_statistics(status_codes, total_size)
-            except BaseException:
-                pass
-finally:
-    print_statistics(status_codes, total_size)
+        line_count += 1
+        try:
+            parts = line.split()
+            ip_address = parts[0]
+            date_time = parts[3].strip('[]')
+            request = parts[5].strip('"')
+            status_code = int(parts[7])
+            file_size = int(parts[8])
+            if request == "GET /projects/260 HTTP/1.1":
+                total_size += file_size
+                status_counts[status_code] += 1
+        except (IndexError, ValueError):
+            pass
+        if line_count % 10 == 0:
+            print_stats()
+except KeyboardInterrupt:
+    print_stats()
