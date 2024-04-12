@@ -3,23 +3,18 @@ import sys
 import re
 import signal
 
-"""
-log_pattern - Define the log pattern and compile it for better performance
-total_size & status_codes - Initialize variables to store the total size and status code counts
-print_stats() - Function to print the statistics
-signal.signal() - Set the signal handler for SIGINT (CTRL + C)
-And at the end - read from stdin line by line
-"""
-
+# Define the log pattern and compile it for better performance
 log_pattern = re.compile(
     r'(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[(?P<date>.+?)\] '
     r'"GET /projects/260 HTTP/1\.1" (?P<status>\d{3}) (?P<size>\d+)'
 )
 
+# Initialize variables to store the total size and status code counts
 total_size = 0
 status_codes = {str(code): 0 for code in [200, 301, 400, 401, 403, 404, 405, 500]}
 
-def print_stats(signum, frame):
+# Function to print the statistics
+def print_stats(signum, _):
     print(f"File size: {total_size}")
     for code in sorted(status_codes.keys()):
         if status_codes[code] > 0:
@@ -27,8 +22,10 @@ def print_stats(signum, frame):
     if signum is not None:
         sys.exit()
 
+# Set the signal handler for SIGINT (CTRL + C)
 signal.signal(signal.SIGINT, print_stats)
 
+# Read from stdin line by line
 line_count = 0
 try:
     for line in sys.stdin:
