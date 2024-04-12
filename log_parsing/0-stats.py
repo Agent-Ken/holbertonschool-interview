@@ -1,12 +1,10 @@
 #!/usr/bin/python3
 
 
-"""Testing annoying check"""
-
+"""Input stats"""
 
 import sys
 import re
-
 
 logs = 0
 total_size = 0
