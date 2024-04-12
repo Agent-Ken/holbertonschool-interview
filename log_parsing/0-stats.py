@@ -6,40 +6,39 @@
 
 import sys
 import re
+import signal
 
+log_pattern = re.compile(
+    r'(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[(?P<date>.+?)\] '
+    r'"GET /projects/260 HTTP/1\.1" (?P<status>\d{3}) (?P<size>\d+)'
+)
 
-logs = 0
 total_size = 0
-status_codes = {
-    "200": 0,
-    "301": 0,
-    "400": 0,
-    "401": 0,
-    "403": 0,
-    "404": 0,
-    "405": 0,
-    "500": 0
-}
+status_codes = {str(code): 0 for code in [200, 301, 400, 401, 403, 404, 405, 500]}
 
+def print_stats(signum, _):
+    print(f"File size: {total_size}")
+    for code in sorted(status_codes.keys()):
+        if status_codes[code] > 0:
+            print(f"{code}: {status_codes[code]}")
+    if signum is not None:
+        sys.exit()
 
-def print_statistics(statuses, total):
-    print("File size: {}".format(total))
-    for key, value in sorted(statuses.items()):
-        if value != 0:
-            print("{}: {}".format(key, value))
+signal.signal(signal.SIGINT, print_stats)
 
-
+line_count = 0
 try:
     for line in sys.stdin:
-        new_line = line.rstrip().split(" ")
-        if len(new_line) == 9 or len(new_line) == 7:
-            try:
-                logs += 1
-                total_size += int(new_line[-1])
-                status_codes[new_line[-2]] += 1
-                if logs % 10 == 0 and logs != 0:
-                    print_statistics(status_codes, total_size)
-            except BaseException:
-                pass
+        match = log_pattern.match(line)
+        if match:
+            data = match.groupdict()
+            total_size += int(data['size'])
+            if data['status'] in status_codes:
+                status_codes[data['status']] += 1
+        line_count += 1
+        if line_count % 10 == 0:
+            print_stats(None, None)
+except KeyboardInterrupt:
+    pass
 finally:
-    print_statistics(status_codes, total_size)
+    print_stats(None, None)
