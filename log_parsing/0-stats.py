@@ -3,6 +3,14 @@ import sys
 import re
 import signal
 
+"""
+log_pattern - Define the log pattern and compile it for better performance
+total_size & status_codes - Initialize variables to store the total size and status code counts
+print_stats() - Function to print the statistics
+signal.signal() - Set the signal handler for SIGINT (CTRL + C)
+And at the end - read from stdin line by line
+"""
+
 log_pattern = re.compile(
     r'(?P<ip>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) - \[(?P<date>.+?)\] '
     r'"GET /projects/260 HTTP/1\.1" (?P<status>\d{3}) (?P<size>\d+)'
