@@ -34,19 +34,24 @@ def print_stats():
 try:
     for line in sys.stdin:
         line_count += 1
-        try:
-            parts = line.split()
-            ip_address = parts[0]
-            date_time = parts[3].strip('[]')
-            request = parts[5].strip('"')
-            status_code = int(parts[7])
-            file_size = int(parts[8])
-            if request == "GET /projects/260 HTTP/1.1":
-                total_size += file_size
-                status_counts[status_code] += 1
-        except (IndexError, ValueError):
-            pass
+        line_parts = line.rstrip().split(" ")
+
+        if len(line_parts) == 9 or len(line_parts) == 7:
+            try:
+                ip_address = line_parts[0]
+                date_time = line_parts[3].strip('[]')
+                request = line_parts[5].strip('"')
+                status_code = int(line_parts[-2])
+                file_size = int(line_parts[-1])
+
+                if request == "GET /projects/260 HTTP/1.1":
+                    total_size += file_size
+                    status_counts[status_code] += 1
+            except (IndexError, ValueError):
+                pass
+
         if line_count % 10 == 0:
             print_stats()
+
 except KeyboardInterrupt:
     print_stats()
