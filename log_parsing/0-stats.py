@@ -1,6 +1,17 @@
 #!/usr/bin/python3
 
-"""Log parsing algorithm that reads stdin and computes metrics."""
+"""
+Log parsing algorithm
+
+This script reads standard input line by line and computes metrics based on the input format:
+<IP Address> - [<date>] "GET /projects/260 HTTP/1.1" <status code> <file size>
+
+It prints the following statistics after every 10 lines or a keyboard interruption (CTRL + C):
+- Total file size: File size: <total size>
+- Number of lines by status code: <status code>: <number>
+
+If the input line does not match the expected format, it is skipped.
+"""
 
 import sys
 from collections import defaultdict
