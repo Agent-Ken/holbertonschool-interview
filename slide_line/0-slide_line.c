@@ -1,65 +1,85 @@
 #include "slide_line.h"
 
 /**
- * slide_left - Slides and merges an array of integers to the left.
+ * slide_left - Slides an array of integers to the left.
  * @line: Pointer to the array of integers.
  * @size: Number of elements in the array.
  */
 void slide_left(int *line, size_t size)
 {
-    size_t i, last_merged = 0;
+    size_t i = 0, j = 0;
 
-    for (i = 0; i < size; i++)
+    while (i < size)
     {
-        if (line[i] == 0)
-            continue;
-        
-        if (last_merged > 0 && line[last_merged - 1] == line[i])
+        if (line[i] != 0)
         {
-            line[last_merged - 1] *= 2;
-            line[i] = 0;
-            last_merged--;
-        }
-        else
-        {
-            if (last_merged != i)
-            {
-                line[last_merged] = line[i];
+            line[j] = line[i];
+            if (i != j)
                 line[i] = 0;
-            }
-            last_merged++;
+            j++;
         }
+        i++;
     }
 }
 
 /**
- * slide_right - Same as above but now to the right.
+ * slide_right - Slides an array of integers to the right.
  * @line: Pointer to the array of integers.
  * @size: Number of elements in the array.
  */
 void slide_right(int *line, size_t size)
 {
-    size_t i, last_merged = size;
+    size_t i = size - 1, j = size - 1;
 
-    for (i = size; i > 0; i--)
+    while (i > 0)
     {
-        if (line[i - 1] == 0)
-            continue;
-        
-        if (last_merged < size && line[last_merged] == line[i - 1])
+        if (line[i] != 0)
         {
-            line[last_merged] *= 2;
-            line[i - 1] = 0;
-            last_merged++;
+            line[j] = line[i];
+            if (i != j)
+                line[i] = 0;
+            j--;
+        }
+        i--;
+    }
+}
+
+/**
+ * merge_line - Merges an array of integers.
+ * @line: Pointer to the array of integers.
+ * @size: Number of elements in the array.
+ * @direction: Direction to merge (SLIDE_LEFT or SLIDE_RIGHT).
+ */
+void merge_line(int *line, size_t size, int direction)
+{
+    size_t i, merge_index = (direction == SLIDE_LEFT) ? 0 : size - 1;
+    int last_num = -1;
+
+    for (i = (direction == SLIDE_LEFT) ? 0 : size - 1;
+         (direction == SLIDE_LEFT) ? (i < size) : (i != (size_t)-1);
+         (direction == SLIDE_LEFT) ? i++ : i--)
+    {
+        if (line[i] == 0)
+            continue;
+
+        if (line[i] == last_num)
+        {
+            line[merge_index] += line[i];
+            line[i] = 0;
+            last_num = -1;
+            merge_index += (direction == SLIDE_LEFT) ? 1 : -1;
         }
         else
         {
-            if (last_merged != i)
+            if (last_num != -1)
+                merge_index += (direction == SLIDE_LEFT) ? 1 : -1;
+
+            last_num = line[i];
+            if (merge_index != i)
             {
-                line[last_merged - 1] = line[i - 1];
-                line[i - 1] = 0;
+                line[merge_index] = line[i];
+                line[i] = 0;
             }
-            last_merged--;
         }
     }
 }
@@ -76,6 +96,8 @@ int slide_line(int *line, size_t size, int direction)
 {
     if (direction != SLIDE_LEFT && direction != SLIDE_RIGHT)
         return (0);
+
+    merge_line(line, size, direction);
 
     if (direction == SLIDE_LEFT)
         slide_left(line, size);
