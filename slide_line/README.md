@@ -1,0 +1,1 @@
+# Algorithms - 2048 (single line)
