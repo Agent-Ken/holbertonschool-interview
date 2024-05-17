@@ -7,7 +7,7 @@
  */
 void slide_left(int *line, size_t size)
 {
-    size_t i, j, last_merged = 0;
+    size_t i, last_merged = 0;
 
     for (i = 0; i < size; i++)
     {
@@ -39,7 +39,7 @@ void slide_left(int *line, size_t size)
  */
 void slide_right(int *line, size_t size)
 {
-    size_t i, j, last_merged = size;
+    size_t i, last_merged = size;
 
     for (i = size; i > 0; i--)
     {
