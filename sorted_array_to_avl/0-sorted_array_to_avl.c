@@ -24,15 +24,16 @@ avl_t *create_node(avl_t *parent, int value)
 }
 
 /**
- * sorted_array_to_avl_helper - Recursively builds an AVL tree from a sorted array
+ * sorted_array_to_avl_helper - Recursively builds an AVL tree
  * @array: Pointer to the first element of the array
  * @start: Starting index of the subarray
  * @end: Ending index of the subarray
  * @parent: Pointer to the parent node
  *
- * Return: Pointer to the root node of the subtree, or NULL on failure
+ * Return: Pointer to the root node of the subtree, or NULL
  */
-avl_t *sorted_array_to_avl_helper(int *array, int start, int end, avl_t *parent)
+avl_t *sorted_array_to_avl_helper(
+	int *array, int start, int end, avl_t *parent)
 {
 	int mid;
 	avl_t *root;
@@ -57,7 +58,7 @@ avl_t *sorted_array_to_avl_helper(int *array, int start, int end, avl_t *parent)
  * @array: Pointer to the first element of the array to be converted
  * @size: Number of elements in the array
  *
- * Return: Pointer to the root node of the created AVL tree or NULL on failure
+ * Return: Pointer to the root node of the created AVL tree or NULL
  */
 avl_t *sorted_array_to_avl(int *array, size_t size)
 {
