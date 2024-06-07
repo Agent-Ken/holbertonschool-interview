@@ -33,11 +33,14 @@ avl_t *create_node(avl_t *parent, int value)
  */
 avl_t *sorted_array_to_avl_helper(int *array, int start, int end, avl_t *parent)
 {
+    int mid;
+    avl_t *root;
+
     if (start > end)
         return (NULL);
 
-    int mid = (start + end) / 2;
-    avl_t *root = create_node(parent, array[mid]);
+    mid = (start + end) / 2;
+    root = create_node(parent, array[mid]);
     if (!root)
         return (NULL);
 
