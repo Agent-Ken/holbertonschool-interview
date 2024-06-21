@@ -18,15 +18,22 @@ request(apiUrl, (error, response, body) => {
   const film = JSON.parse(body);
   const characters = film.characters;
 
-  characters.forEach((characterUrl) => {
-    request(characterUrl, (error, response, body) => {
-      if (error) {
-        console.error(error);
-        return;
-      }
-
-      const character = JSON.parse(body);
-      console.log(character.name);
+  const characterPromises = characters.map(characterUrl => {
+    return new Promise((resolve, reject) => {
+      request(characterUrl, (error, response, body) => {
+        if (error) {
+          reject(error);
+        } else {
+          const character = JSON.parse(body);
+          resolve(character.name);
+        }
+      });
     });
   });
+
+  Promise.all(characterPromises)
+    .then(characterNames => {
+      characterNames.forEach(name => console.log(name));
+    })
+    .catch(error => console.error(error));
 });
