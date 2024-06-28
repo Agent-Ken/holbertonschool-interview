@@ -3,10 +3,11 @@
 Rain module
 """
 
+
 def rain(walls):
     """
     Calculate how much water will be retained after it rains.
-    
+
     :param walls: List of non-negative integers representing heights of walls.
     :return: Integer indicating total amount of rainwater retained.
     """
