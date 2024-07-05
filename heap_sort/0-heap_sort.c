@@ -40,19 +40,21 @@ void heapify(int *array, size_t size, size_t root, size_t end)
 }
 
 /**
- * heap_sort - Sorts an array of integers in ascending order.
+ * heap_sort - Sorts an array of integers in ascending order
  * @array: Array to be sorted.
  * @size: Size of the array.
  */
 void heap_sort(int *array, size_t size)
 {
+    size_t i;
+
     if (array == NULL || size < 2)
         return;
 
-    for (size_t i = size / 2; i > 0; i--)
+    for (i = size / 2; i > 0; i--)
         heapify(array, size, i - 1, size);
 
-    for (size_t i = size; i > 1; i--)
+    for (i = size; i > 1; i--)
     {
         swap(&array[0], &array[i - 1]);
         print_array(array, size);
