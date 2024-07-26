@@ -2,6 +2,10 @@
 
 heap_t *get_last_node(heap_t *root);
 void heapify_down(heap_t *node);
+queue_t *create_queue(void);
+int enqueue(queue_t **queue, heap_t *node);
+heap_t *dequeue(queue_t **queue);
+void free_queue(queue_t *queue);
 
 /**
  * heap_extract - Extracts the root node of a Max Binary Heap
@@ -57,13 +61,9 @@ int heap_extract(heap_t **root)
 heap_t *get_last_node(heap_t *root)
 {
     heap_t *last = NULL;
-    queue_t *queue = NULL;
+    queue_t *queue = create_queue();
 
-    if (!root)
-        return (NULL);
-
-    queue = create_queue();
-    if (!queue)
+    if (!queue || !root)
         return (NULL);
 
     enqueue(&queue, root);
@@ -81,7 +81,7 @@ heap_t *get_last_node(heap_t *root)
 }
 
 /**
- * heapify_down - Maintains heap property by shifting the node down
+ * heapify_down - Ensures the max-heap property is maintained by shifting node down
  * @node: Pointer to the node to heapify down
  */
 void heapify_down(heap_t *node)
