@@ -106,8 +106,6 @@ void heapify_down(heap_t *node)
     }
 }
 
-/* Queue Implementation */
-
 /**
  * create_queue - Creates a queue
  *
