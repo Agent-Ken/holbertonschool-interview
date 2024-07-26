@@ -57,7 +57,7 @@ int heap_extract(heap_t **root)
 heap_t *get_last_node(heap_t *root)
 {
     heap_t *last = NULL;
-    queue_t *queue = NULL, *temp = NULL;
+    queue_t *queue = NULL;
 
     if (!root)
         return (NULL);
