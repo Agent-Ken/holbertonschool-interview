@@ -1,6 +1,7 @@
 #ifndef BINARY_TREES_H
 #define BINARY_TREES_H
 
+#include <stddef.h>
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -22,28 +23,12 @@ struct binary_tree_s
 
 typedef struct binary_tree_s binary_tree_t;
 typedef struct binary_tree_s heap_t;
-
-/**
- * struct queue_s - Queue node
- *
- * @node: Pointer to the heap node
- * @next: Pointer to the next queue node
- */
-struct queue_s
-{
-    heap_t *node;
-    struct queue_s *next;
-};
-
-typedef struct queue_s queue_t;
-
-heap_t *get_last_node(heap_t *root);
-void heapify_down(heap_t *node);
-queue_t *create_queue(void);
-int enqueue(queue_t **queue, heap_t *node);
-heap_t *dequeue(queue_t **queue);
-void free_queue(queue_t *queue);
-
+heap_t *_array_to_heap(int *array, size_t size);
+void binary_tree_print(const binary_tree_t *tree);
+void _binary_tree_delete(binary_tree_t *tree);
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
+size_t binary_tree_size(const binary_tree_t *tree);
 int heap_extract(heap_t **root);
+void binary_tree_print(const binary_tree_t *);
 
 #endif
