@@ -1,160 +1,106 @@
-#include "holberton.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <ctype.h>
+#include <holberton.h>
 
 /**
- * main - multiplies two positive numbers
- * @argc: number of arguments
- * @argv: array of arguments
- * Return: 0 on success, 98 on failure
+ * _isdigit - checks if a string is a number
+ * @str: string to check
+ *
+ * Return: 1 if str is a number, 0 otherwise
  */
-int main(int argc, char *argv[])
+int _isdigit(char *str)
 {
-	char *result;
+	int i = 0;
 
-	if (argc != 3)
+	if (str[0] == '-')
+		i = 1;
+	for (; str[i]; i++)
 	{
-		_puts("Error");
-		exit(98);
-	}
-
-	if (!is_digit(argv[1]) || !is_digit(argv[2]))
-	{
-		_puts("Error");
-		exit(98);
-	}
-
-	result = multiply(argv[1], argv[2]);
-	if (result == NULL)
-	{
-		_puts("Error");
-		exit(98);
-	}
-
-	print_result(result);
-	free(result);
-
-	return (0);
-}
-
-/**
- * is_digit - checks if a string contains only digits
- * @s: string to check
- * Return: 1 if only digits, 0 otherwise
- */
-int is_digit(char *s)
-{
-	while (*s)
-	{
-		if (*s < '0' || *s > '9')
+		if (!isdigit(str[i]))
 			return (0);
-		s++;
 	}
 	return (1);
 }
 
 /**
- * _puts - prints a string followed by a new line
+ * _puts - prints a string
  * @str: string to print
+ *
+ * Return: void
  */
 void _puts(char *str)
 {
 	while (*str)
-		_putchar(*str++);
-	_putchar('\n');
+	{
+		putchar(*str);
+		str++;
+	}
+	putchar('\n');
 }
 
 /**
- * multiply - multiplies two numbers represented as strings
- * @num1: first number
- * @num2: second number
- * Return: result of multiplication or NULL on failure
+ * main - multiplies two large numbers
+ * @argc: number of arguments
+ * @argv: array of arguments
+ *
+ * Return: 0 on success, 98 on error
  */
-char *multiply(char *num1, char *num2)
+int main(int argc, char *argv[])
 {
-	int len1, len2, len, i, j, n1, n2, sum, carry;
-	char *result;
+	int len1, len2, len, i, j, carry, n1, n2, *result;
+	char *num1, *num2;
 
-	len1 = _strlen(num1);
-	len2 = _strlen(num2);
+	if (argc != 3 || !_isdigit(argv[1]) || !_isdigit(argv[2]))
+	{
+		_puts("Error");
+		exit(98);
+	}
+
+	num1 = argv[1];
+	num2 = argv[2];
+	len1 = strlen(num1);
+	len2 = strlen(num2);
 	len = len1 + len2;
+	result = calloc(len, sizeof(int));
 
-	result = calloc(len + 1, sizeof(char));
 	if (result == NULL)
-		return (NULL);
+	{
+		_puts("Error");
+		exit(98);
+	}
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
+		if (num1[i] == '-')
+			continue;
 		n1 = num1[i] - '0';
 		carry = 0;
-
 		for (j = len2 - 1; j >= 0; j--)
 		{
+			if (num2[j] == '-')
+				continue;
 			n2 = num2[j] - '0';
-			sum = (result[i + j + 1] - '0') + (n1 * n2) + carry;
-			carry = sum / 10;
-			result[i + j + 1] = (sum % 10) + '0';
+			carry += result[i + j + 1] + (n1 * n2);
+			result[i + j + 1] = carry % 10;
+			carry /= 10;
 		}
-		result[i + j + 1] += carry;
+		if (carry)
+			result[i + j + 1] += carry;
 	}
 
-	for (i = 0; i < len; i++)
-	{
-		if (result[i] != '0')
-			break;
-	}
-
-	if (i == len)
-	{
-		free(result);
-		result = calloc(2, sizeof(char));
-		if (result == NULL)
-			return (NULL);
-		result[0] = '0';
-		return (result);
-	}
-
-	return (_strcpy(result, result + i));
-}
-
-/**
- * _strlen - returns the length of a string
- * @s: string to measure
- * Return: length of string
- */
-int _strlen(char *s)
-{
-	int len = 0;
-
-	while (s[len])
-		len++;
-	return (len);
-}
-
-/**
- * _strcpy - copies a string
- * @dest: destination buffer
- * @src: source string
- * Return: pointer to dest
- */
-char *_strcpy(char *dest, char *src)
-{
-	int i = 0;
-
-	while (src[i])
-	{
-		dest[i] = src[i];
+	i = 0;
+	while (i < len && result[i] == 0)
 		i++;
+	if (i == len)
+		putchar('0');
+	else
+	{
+		for (; i < len; i++)
+			putchar(result[i] + '0');
 	}
-	dest[i] = '\0';
-	return (dest);
-}
-
-/**
- * print_result - prints the result
- * @result: string to print
- */
-void print_result(char *result)
-{
-	while (*result)
-		_putchar(*result++);
-	_putchar('\n');
+	putchar('\n');
+	free(result);
+	return (0);
 }
