@@ -9,5 +9,6 @@ char *multiply(char *num1, char *num2);
 int _strlen(char *s);
 char *_strcpy(char *dest, char *src);
 void print_result(char *result);
+int is_digit(char *s);
 
 #endif

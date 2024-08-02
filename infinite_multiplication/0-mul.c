@@ -8,31 +8,31 @@
  */
 int main(int argc, char *argv[])
 {
-    char *result;
+	char *result;
 
-    if (argc != 3)
-    {
-        _puts("Error");
-        exit(98);
-    }
+	if (argc != 3)
+	{
+		_puts("Error");
+		exit(98);
+	}
 
-    if (!is_digit(argv[1]) || !is_digit(argv[2]))
-    {
-        _puts("Error");
-        exit(98);
-    }
+	if (!is_digit(argv[1]) || !is_digit(argv[2]))
+	{
+		_puts("Error");
+		exit(98);
+	}
 
-    result = multiply(argv[1], argv[2]);
-    if (result == NULL)
-    {
-        _puts("Error");
-        exit(98);
-    }
+	result = multiply(argv[1], argv[2]);
+	if (result == NULL)
+	{
+		_puts("Error");
+		exit(98);
+	}
 
-    print_result(result);
-    free(result);
+	print_result(result);
+	free(result);
 
-    return (0);
+	return (0);
 }
 
 /**
@@ -42,13 +42,13 @@ int main(int argc, char *argv[])
  */
 int is_digit(char *s)
 {
-    while (*s)
-    {
-        if (*s < '0' || *s > '9')
-            return (0);
-        s++;
-    }
-    return (1);
+	while (*s)
+	{
+		if (*s < '0' || *s > '9')
+			return (0);
+		s++;
+	}
+	return (1);
 }
 
 /**
@@ -57,9 +57,9 @@ int is_digit(char *s)
  */
 void _puts(char *str)
 {
-    while (*str)
-        _putchar(*str++);
-    _putchar('\n');
+	while (*str)
+		_putchar(*str++);
+	_putchar('\n');
 }
 
 /**
@@ -70,46 +70,46 @@ void _puts(char *str)
  */
 char *multiply(char *num1, char *num2)
 {
-    int len1, len2, len, i, j, n1, n2, sum;
-    char *result;
+	int len1, len2, len, i, j, n1, n2, sum;
+	char *result;
 
-    len1 = _strlen(num1);
-    len2 = _strlen(num2);
-    len = len1 + len2;
+	len1 = _strlen(num1);
+	len2 = _strlen(num2);
+	len = len1 + len2;
 
-    result = calloc(len + 1, sizeof(char));
-    if (result == NULL)
-        return (NULL);
+	result = calloc(len + 1, sizeof(char));
+	if (result == NULL)
+		return (NULL);
 
-    for (i = len1 - 1; i >= 0; i--)
-    {
-        for (j = len2 - 1; j >= 0; j--)
-        {
-            n1 = num1[i] - '0';
-            n2 = num2[j] - '0';
-            sum = (result[i + j + 1] - '0') + (n1 * n2);
-            result[i + j + 1] = (sum % 10) + '0';
-            result[i + j] += sum / 10;
-        }
-    }
+	for (i = len1 - 1; i >= 0; i--)
+	{
+		for (j = len2 - 1; j >= 0; j--)
+		{
+			n1 = num1[i] - '0';
+			n2 = num2[j] - '0';
+			sum = (result[i + j + 1] - '0') + (n1 * n2);
+			result[i + j + 1] = (sum % 10) + '0';
+			result[i + j] += sum / 10;
+		}
+	}
 
-    for (i = 0; i < len; i++)
-    {
-        if (result[i] != 0)
-            break;
-    }
+	for (i = 0; i < len; i++)
+	{
+		if (result[i] != '0')
+			break;
+	}
 
-    if (i == len)
-    {
-        free(result);
-        result = calloc(2, sizeof(char));
-        if (result == NULL)
-            return (NULL);
-        result[0] = '0';
-        return (result);
-    }
+	if (i == len)
+	{
+		free(result);
+		result = calloc(2, sizeof(char));
+		if (result == NULL)
+			return (NULL);
+		result[0] = '0';
+		return (result);
+	}
 
-    return (_strcpy(result, result + i));
+	return (_strcpy(result, result + i));
 }
 
 /**
@@ -119,11 +119,11 @@ char *multiply(char *num1, char *num2)
  */
 int _strlen(char *s)
 {
-    int len = 0;
+	int len = 0;
 
-    while (s[len])
-        len++;
-    return (len);
+	while (s[len])
+		len++;
+	return (len);
 }
 
 /**
@@ -134,15 +134,15 @@ int _strlen(char *s)
  */
 char *_strcpy(char *dest, char *src)
 {
-    int i = 0;
+	int i = 0;
 
-    while (src[i])
-    {
-        dest[i] = src[i];
-        i++;
-    }
-    dest[i] = '\0';
-    return (dest);
+	while (src[i])
+	{
+		dest[i] = src[i];
+		i++;
+	}
+	dest[i] = '\0';
+	return (dest);
 }
 
 /**
@@ -151,7 +151,7 @@ char *_strcpy(char *dest, char *src)
  */
 void print_result(char *result)
 {
-    while (*result)
-        _putchar(*result++);
-    _putchar('\n');
+	while (*result)
+		_putchar(*result++);
+	_putchar('\n');
 }
