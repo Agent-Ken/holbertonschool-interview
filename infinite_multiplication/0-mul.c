@@ -70,7 +70,7 @@ void _puts(char *str)
  */
 char *multiply(char *num1, char *num2)
 {
-	int len1, len2, len, i, j, n1, n2, sum;
+	int len1, len2, len, i, j, n1, n2, sum, carry;
 	char *result;
 
 	len1 = _strlen(num1);
@@ -83,14 +83,17 @@ char *multiply(char *num1, char *num2)
 
 	for (i = len1 - 1; i >= 0; i--)
 	{
+		n1 = num1[i] - '0';
+		carry = 0;
+
 		for (j = len2 - 1; j >= 0; j--)
 		{
-			n1 = num1[i] - '0';
 			n2 = num2[j] - '0';
-			sum = (result[i + j + 1] - '0') + (n1 * n2);
+			sum = (result[i + j + 1] - '0') + (n1 * n2) + carry;
+			carry = sum / 10;
 			result[i + j + 1] = (sum % 10) + '0';
-			result[i + j] += sum / 10;
 		}
+		result[i + j + 1] += carry;
 	}
 
 	for (i = 0; i < len; i++)
