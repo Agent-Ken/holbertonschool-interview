@@ -9,7 +9,7 @@ def island_perimeter(grid):
     Calculate the perimeter of the island described in the grid.
 
     Args:
-    grid (List[List[int]]): A 2D grid where 0 represents water and 1 represents land.
+    grid (List[List[int]]): A 2D grid where 0 is water and 1 is land.
 
     Returns:
     int: The perimeter of the island.
@@ -18,7 +18,8 @@ def island_perimeter(grid):
     - The grid is rectangular, with width and height not exceeding 100.
     - The grid is completely surrounded by water.
     - There is only one island (or nothing).
-    - The island doesn't have "lakes" (water inside not connected to surrounding water).
+    - The island doesn't have "lakes"
+    ^ (water inside not connected to surrounding water).
     """
     perimeter = 0
     rows = len(grid)
