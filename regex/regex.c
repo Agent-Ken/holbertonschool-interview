@@ -19,16 +19,16 @@ static int match_star(char c, char const *pattern, char const *str);
  */
 static int match_here(char const *str, char const *pattern)
 {
-    if (!*pattern)
-        return (!*str);
+	if (!*pattern)
+		return (!*str);
 
-    if (pattern[1] == '*')
-        return (match_star(pattern[0], pattern + 2, str));
+	if (pattern[1] == '*')
+		return (match_star(pattern[0], pattern + 2, str));
 
-    if (*str && (pattern[0] == '.' || pattern[0] == *str))
-        return (match_here(str + 1, pattern + 1));
+	if (*str && (pattern[0] == '.' || pattern[0] == *str))
+		return (match_here(str + 1, pattern + 1));
 
-    return (0);
+	return (0);
 }
 
 /**
@@ -41,20 +41,20 @@ static int match_here(char const *str, char const *pattern)
  */
 static int match_star(char c, char const *pattern, char const *str)
 {
-    const char *s;
+	const char *s;
 
-    if (match_here(str, pattern))
-        return (1);
+	if (match_here(str, pattern))
+		return (1);
 
-    s = str;
-    while (*s && (c == '.' || *s == c))
-    {
-        if (match_here(s + 1, pattern))
-            return (1);
-        s++;
-    }
+	s = str;
+	while (*s && (c == '.' || *s == c))
+	{
+		if (match_here(s + 1, pattern))
+			return (1);
+		s++;
+	}
 
-    return (0);
+	return (0);
 }
 
 /**
@@ -66,8 +66,8 @@ static int match_star(char c, char const *pattern, char const *str)
  */
 int regex_match(char const *str, char const *pattern)
 {
-    if (!str || !pattern)
-        return (0);
+	if (!str || !pattern)
+		return (0);
 
-    return (match_here(str, pattern));
+	return (match_here(str, pattern));
 }
