@@ -23,9 +23,7 @@ static int match_here(char const *str, char const *pattern)
         return (!*str);
 
     if (pattern[1] == '*')
-    {
         return (match_star(pattern[0], pattern + 2, str));
-    }
 
     if (*str && (pattern[0] == '.' || pattern[0] == *str))
         return (match_here(str + 1, pattern + 1));
@@ -43,11 +41,18 @@ static int match_here(char const *str, char const *pattern)
  */
 static int match_star(char c, char const *pattern, char const *str)
 {
-    do
+    const char *s;
+
+    if (match_here(str, pattern))
+        return (1);
+
+    s = str;
+    while (*s && (c == '.' || *s == c))
     {
-        if (match_here(str, pattern))
+        if (match_here(s + 1, pattern))
             return (1);
-    } while (*str && (c == '.' || c == *str++));
+        s++;
+    }
 
     return (0);
 }
