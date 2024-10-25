@@ -1,6 +1,16 @@
 #include "regex.h"
 
 /**
+ * match_star - Handle star operator in pattern
+ * @c: Character before star
+ * @pattern: Rest of pattern after star
+ * @str: String to match
+ *
+ * Return: 1 if matches, 0 if not
+ */
+static int match_star(char c, char const *pattern, char const *str);
+
+/**
  * match_here - Helper function to match pattern at current position
  * @str: String to match
  * @pattern: Pattern to match against
